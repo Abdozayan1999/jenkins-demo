@@ -4,15 +4,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building application...'
+                echo '=== 1. جاري بناء التطبيق ==='
             }
         }
-    }
-
-    post {
-        failure {
-            // هذا السطر صحيح برمجياً وسيتم طباعته في الـ Console Output عند فشل الـ Pipeline
-            echo '=== حدث خطأ أثناء التنفيذ ==='
+        stage('Test') {
+            steps {
+                echo '=== 2. جاري تشغيل الاختبارات التلقائية ==='
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo '=== 3. جاري نشر التطبيق على Docker ==='
+            }
         }
     }
 }

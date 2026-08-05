@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        // الاسم هنا يجب أن يطابق تماماً الاسم الذي كتبته في Global Tool Configuration
+        nodejs 'NodeJS-18'
+    }
+
     environment {
         APP_DIR = 'real-app'
         EXPORT_DIR = '/app_output'
@@ -41,7 +46,6 @@ pipeline {
             steps {
                 dir("${env.APP_DIR}") {
                     echo '=== بناء صورة الـ Docker وتطبيق النشر ==='
-                    // إيقاف الحاوية القديمة إن وجدت وتعديل الصورة
                     sh "docker stop ${env.CONTAINER_NAME} || true"
                     sh "docker rm ${env.CONTAINER_NAME} || true"
                     sh "docker build -t ${env.IMAGE_NAME} ."

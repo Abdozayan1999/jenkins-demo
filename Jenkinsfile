@@ -33,15 +33,15 @@ pipeline {
         }
 
         stage('3. Artifact Archiving') {
-            steps {
-                dir("${env.APP_DIR}") {
-                    echo '=== تصدير نسخة الاحتياط للمجال الخارجي في Linux ==='
-                    sh "tar -czf app-build-${BUILD_NUMBER}.tar.gz ."
-                    sh "cp app-build-${BUILD_NUMBER}.tar.gz ${env.EXPORT_DIR}/"
-                }
-            }
+    steps {
+        dir("${env.APP_DIR}") {
+            echo '=== تصدير نسخة الاحتياط للمجال الخارجي في Linux ==='
+            sh 'mkdir -p ${EXPORT_DIR}'
+            sh "tar -czf app-build-${BUILD_NUMBER}.tar.gz ."
+            sh "cp app-build-${BUILD_NUMBER}.tar.gz ${env.EXPORT_DIR}/"
         }
-
+    }
+}
         stage('4. Docker Build & Deploy') {
             steps {
                 dir("${env.APP_DIR}") {

@@ -32,13 +32,13 @@ pipeline {
             }
         }
 
-        stage('3. Artifact Archiving') {
+       stage('3. Artifact Archiving') {
     steps {
         dir("${env.APP_DIR}") {
             echo '=== تصدير نسخة الاحتياط للمجال الخارجي في Linux ==='
             sh 'mkdir -p ${EXPORT_DIR}'
-            sh "tar -czf app-build-${BUILD_NUMBER}.tar.gz ."
-            sh "cp app-build-${BUILD_NUMBER}.tar.gz ${env.EXPORT_DIR}/"
+            // إنشاء الملف المضغوط مباشرة داخل المجلد الخارجي لتفادي تغيير حصر الملفات
+            sh "tar --exclude='*.tar.gz' -czf ${EXPORT_DIR}/app-build-${BUILD_NUMBER}.tar.gz ."
         }
     }
 }
